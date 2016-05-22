@@ -104,11 +104,11 @@ function generiranjePodatkov() {
 
 function beriPacienta() {
     
+    var sessionId = getSessionId();
+    
     $.ajaxSetup({
-        headers: {
-            "Authorization": authorization
-        }
-    });
+	    headers: {"Ehr-Session": sessionId}
+	});
     var searchData = [
         {key: "ehrId", value: $("#ehrIdPacienta").val()}
     ];
