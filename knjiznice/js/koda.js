@@ -31,11 +31,60 @@ function getSessionId() {
  * @return ehrId generiranega pacienta
  */
 function generirajPodatke(stPacienta) {
-  ehrId = "";
+    var ehrId = "";
 
-  // TODO: Potrebno implementirati
+    // TODO: Potrebno implementirati
+  
+    var sessionId = getSessionId();
 
-  return ehrId;
+    var ime, priimek, datumRojstva;
+
+    if (stPacienta === 1) {
+        ime = "Zdenka";
+    	priimek = "Folkertofelj";
+    	datumRojstva = "1950-01-01T00:01";
+    } else if (stPacienta === 2) {
+        ime = "Fata";
+    	priimek = "Čistić";
+    	datumRojstva = "1977-01-01T00:01";
+    } else if (stPacienta === 3) {
+        ime = "Saško";
+    	priimek = "Modersdorfer";
+    	datumRojstva = "1991-01-01T00:01";
+    }
+	
+
+	$.ajaxSetup({
+	    headers: {"Ehr-Session": sessionId}
+	});
+	$.ajax({
+	    url: baseUrl + "/ehr",
+	    type: 'POST',
+	    success: function (data) {
+	        var ehrId = data.ehrId;
+	        var partyData = {
+	            firstNames: ime,
+	            lastNames: priimek,
+	            dateOfBirth: datumRojstva,
+	            partyAdditionalInfo: [{key: "ehrId", value: ehrId}]
+	        };
+	        $.ajax({
+	            url: baseUrl + "/demographics/party",
+	            type: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify(partyData),
+	            success: function (party) {
+	                alert(ehrId);
+	            },
+	            error: function(err) {
+	                alert("Napaka: " + JSON.parse(err.responseText).userMessage);
+	            }
+	        });
+	    }
+	});
+	
+
+    return ehrId;
 }
 
 
