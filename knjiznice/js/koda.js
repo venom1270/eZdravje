@@ -37,20 +37,23 @@ function generirajPodatke(stPacienta) {
   
     var sessionId = getSessionId();
 
-    var ime, priimek, datumRojstva;
+    var ime, priimek, datumRojstva, drzava;
 
     if (stPacienta === 1) {
         ime = "Zdenka";
     	priimek = "Folkertofelj";
     	datumRojstva = "1950-01-01T00:01";
+    	drzava = "Slovenia";
     } else if (stPacienta === 2) {
         ime = "Fata";
     	priimek = "Čistić";
     	datumRojstva = "1977-01-01T00:01";
+    	drzava = "Slovenia";
     } else if (stPacienta === 3) {
         ime = "Saško";
     	priimek = "Modersdorfer";
     	datumRojstva = "1991-01-01T00:01";
+    	drzava = "Slovenia";
     }
 	
 
@@ -66,6 +69,9 @@ function generirajPodatke(stPacienta) {
 	            firstNames: ime,
 	            lastNames: priimek,
 	            dateOfBirth: datumRojstva,
+	            address: {
+	                address: drzava
+	            },
 	            partyAdditionalInfo: [{key: "ehrId", value: ehrId}]
 	        };
 	        $.ajax({
@@ -85,6 +91,13 @@ function generirajPodatke(stPacienta) {
 	
 
     return ehrId;
+}
+
+function generiranjePodatkov() {
+    alert("Generiram...");
+    generirajPodatke(1);
+    generirajPodatke(2);
+    generirajPodatke(3);
 }
 
 
