@@ -33,7 +33,7 @@ function getSessionId() {
 function generirajPodatke(stPacienta) {
     var ehrId = "";
 
-    // TODO: Potrebno implementirati
+    // TODO: Potrebno implementirati !!!!! DODAJ ŠE INIT VITALNE ZNAKE
   
     var sessionId = getSessionId();
 
@@ -81,7 +81,7 @@ function generirajPodatke(stPacienta) {
 	            data: JSON.stringify(partyData),
 	            success: function (party) {
 	                alert(ehrId);
-	                $("#aplikacija").append(ehrId+"<br/>");
+	                $("#aplikacija").h(ehrId+"<br/>");
 	            },
 	            error: function(err) {
 	                alert("Napaka: " + JSON.parse(err.responseText).userMessage);
@@ -101,5 +101,34 @@ function generiranjePodatkov() {
     generirajPodatke(3);
 }
 
+
+function beriPacienta() {
+    
+    $.ajaxSetup({
+        headers: {
+            "Authorization": authorization
+        }
+    });
+    var searchData = [
+        {key: "ehrId", value: $("#ehrIdPacienta").val()}
+    ];
+    $.ajax({
+        url: baseUrl + "/demographics/party/query",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(searchData),
+        success: function (res) {
+            alert("OK");
+            for (i in res.parties) {
+                var party = res.parties[i];
+                $("#aplikacija").append(party.firstNames + ' ' + party.lastNames + '<br/>' + party.address.address);
+            }
+        },
+        error: function (err) {
+            alert("Napaka");
+        }
+    });
+    
+}
 
 // TODO: Tukaj implementirate funkcionalnost, ki jo podpira vaša aplikacija
