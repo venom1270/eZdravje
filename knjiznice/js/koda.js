@@ -81,6 +81,7 @@ function generirajPodatke(stPacienta) {
 	            data: JSON.stringify(partyData),
 	            success: function (party) {
 	                alert(ehrId);
+	                $("#aplikacija").append(ehrId+"<br/>");
 	            },
 	            error: function(err) {
 	                alert("Napaka: " + JSON.parse(err.responseText).userMessage);
