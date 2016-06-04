@@ -400,7 +400,7 @@ function preberiXML() {
     
     $.ajax({
     type: "GET",
-    url: "/data.xml",
+    url: "data.xml",
     dataType: "xml",
     success: function (xml) {
         //console.log(xml);
