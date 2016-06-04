@@ -22,7 +22,7 @@
           <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
         <!-- ZAČETEK: Ime vaše aplikacije -->
-        <a class="navbar-brand" href="index.html">{ime vaše aplikacije}</a>
+        <a class="navbar-brand" href="index.html">Napovedovalec življenjske dobe</a>
         <!-- KONEC: Ime vaše aplikacije -->
       </div>
       <div class="collapse navbar-collapse" id="menujska-vrstica">
@@ -45,7 +45,16 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Opis ideje, ki jo aplikacija podpira -->
-            <p><strong>TO-DO</strong>: Na tem mestu je potrebno dodati <strong>osnovni opis ideje rešitve</strong> (kakšen je osnovni SCENARIJ UPORABE, KDO je ciljna publika, za kakšen NAMEN se aplikacija uporablja).</p><p class="text-muted">Opis naj ne bo daljši od 200 besed.</p>
+            <p>
+              <p>Namen aplikacije »Napovedovalec življenjske dobe« je hiter prikaz in ocena najnovejših vitalnih znakov in na podlagi teh, 
+              ter podatkov o povprečnih življenjskih dobah v različnih državah, na grobo določiti življenjsko dobo pacienta. 
+              Omogoča tudi grafičen prikaz in primerjavo te ocene z drugimi prej omenjenimi državami.</p>
+              <p>Aplikacija je v prvi vrsti namenjena za paciente (oz. njihove zdravnike), 
+              ki želijo vedeti koliko časa bodo, glede na trenutno zdravstveno stanje, še živeli.
+              Ker pa je v splošnem življensko dobo težko zanesljivo napovedati, bi morali napovedovanje konkretno izboljšati.
+              Prav zato bi bila aplikacija v trenutnem stanju lahko dostopna vsem, 
+              ki malo za hec, malo za res želijo vedeti, kako dolgo bodo še živeli in se primerjali z drugimi državami.</p>
+            </p>
             <!-- KONEC: Opis ideje, ki jo aplikacija podpira -->
           </div>
         </div>
@@ -55,7 +64,9 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
-            <p><strong>TO-DO</strong>: Na tem mestu je navesti zunanji vir podatkov (URL naslov), na kakšen način ste ga uporabili (neposredni API klic, uvožena statična datoteka ipd.) in kaj je bil namen uporabe (kako se vključuje v osnovno idejo aplikacije).</p>
+            <p>Uporabil sem podatke o povprečni življenski dobi v različnih državah:</p>
+            <a href="http://apps.who.int/gho/data/node.main.688?lang=en">http://apps.who.int/gho/data/node.main.688?lang=en</a>
+            <p>Podatke sem si shanil pri sebi v datoteki v XML in CSV obliki.<small>(Najprej sem delal z XML, ampak je bilo D3 lažje uporabljati s CSV formatom, prej narejene funkcionalnosti pa nisem spreminjal)</small></p>
             <!-- KONEC: Uporabljeni zunanji viri podatkov -->
           </div>
         </div>
@@ -65,7 +76,8 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Master/detail načrtovalski vzorec -->
-            <p><strong>TO-DO</strong>: Na tem mestu morate navesti uporabljen master/detail načrtovalski vzorec in na kakšen način ga nameravate uporabiti.</p>
+            <p>Uporabljen zunanji vir ima podatke o moški, ženski in povprečni življenjski dobi. Ko na grafu primerjamo države, se upošteva samo povprečna življenska doba, 
+            vendar če kurzor pomaknemo čez nek stolpec, se nam pokažeta tudi podatka o moški in ženski življenjski dobi.</p>
             <!-- KONEC: Master/detail načrtovalski vzorec -->
           </div>
         </div>
@@ -75,7 +87,9 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
-            <p><strong>TO-DO</strong>: Na tem mestu je potrebno navesti uporabljeno tehniko vizualizacije podatkov (za pomoč lahko uporabite primer iz <a href="https://github.com/mbostock/d3/wiki/Gallery" target="_blank">D3.js galerije</a>) in zakaj je bila ta tehnika izbrana.</p>
+            <p>Uporbljena knjižnica: D3</p>
+            <p>Izbral sem preprost stolpični diagram, ker mislim, da je za tako vrsto podatkov najbolj primeren in pregleden.
+            Omogoča tudi hitro primerjanje posameznih vrednosti(držav) med seboj.</p>
             <!-- KONEC: Uporabljeni zunanji viri podatkov -->
           </div>
         </div>

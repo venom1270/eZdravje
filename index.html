@@ -6,10 +6,40 @@
   <link href="knjiznice/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {padding-top: 70px;}
+    
+    
+    /* ZA D3 */
+    
+    .axis {
+  	  font: 10px sans-serif;
+  	}
+  
+    g bar {
+      fill: black;
+    }
+    
+    /*.y Axis .tick {
+      font-size: 5px;
+    }*/
+  
+  	.axis path,
+  	.axis line {
+  	  fill: none;
+  	  stroke: #000;
+  	  shape-rendering: crispEdges;
+  	}
+  	.axis .tick {
+  	  font-size: 11px;
+  	}
+    
+    /* KONEC D3 */
+    
   </style>
   <script src="knjiznice/js/jquery-2.2.3.min.js"></script>
   <script src="knjiznice/js/bootstrap.min.js"></script>
   <script src="knjiznice/js/koda.js"></script>
+  <script src="knjiznice/js/d3.min.js"></script>
+  <script src="knjiznice/js/d3.tip.js"></script>
 </head>
 <body>
 
@@ -22,7 +52,7 @@
           <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
         </button>
         <!-- ZAČETEK: Ime vaše aplikacije -->
-        <a class="navbar-brand" href="index.html">{Napovedovalec življenja}</a>
+        <a class="navbar-brand" href="index.html">Napovedovalec življenjske dobe</a>
         <!-- KONEC: Ime vaše aplikacije -->
       </div>
       <div class="collapse navbar-collapse" id="menujska-vrstica">
@@ -38,20 +68,133 @@
 
   <!-- ZAČETEK: Vsebina aplikacije -->
   <div class="container" id="aplikacija">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <p class="lead"><strong>TO-DO</strong>: Na tem mestu implementirajte vašo aplikacijo. QWE</p>
-        <div class="col-lg-3 col-md-3 col-sm-3">
-          <select class="form-control input-sm" id="ehrIdPacienta">
-            <option value=""></option>
-            <option value="03a50c16-4cab-4f1b-8738-0468b538714a">Zdenka Folkertofelj</option>
-            <option value="407c45e9-a1cb-4e45-b8ec-aa1b62bebe48">Fata Čistić</option>
-            <option value="17c0868a-1afe-4830-af2e-091359fd100c">Saško Modersdorfer</option>
-          </select>
+      
+      <div class="panel panel-warning" id="panelIzberiPacienta">
+        
+        <div class="panel-heading text-center"><strong>Izbira pacienta</strong></div>
+        
+        <div class="panel-body">
           
-          <button type="button" class="btn btn-primary btn-xs" onclick="beriPacienta()">Preberi</button>
+          <div class="col-lg-12 text-center">
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center">
+                <p class="lead">Izberi pacienta iz seznama:</p>
+                <p></p><select class="form-control" id="ehrIdPacienta">
+                  <option value="">Pred izbiro generiraj podatke</option>
+                  <!--<option value="03a50c16-4cab-4f1b-8738-0468b538714a">Zdenka Folkertofelj</option> 
+                   <option value="17c0868a-1afe-4830-af2e-091359fd100c">Fata Čistić</option>
+                   <option value="407c45e9-a1cb-4e45-b8ec-aa1b62bebe48">Saško Modersdorfer</option> !-->
+                </select></p>
+                
+                <button type="button" class="btn btn-primary" onclick="beriPacientaSeznam()">Preberi</button>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center">
+                <br/>
+                <h1><strong>ALI</strong></h1>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 col-sm-4 text-center">
+                <p class="lead">Vnesi svoj EhrID:</p>
+                <p></p><input type="text" class="form-control" id="rocniEhdId" /></p>
+                
+                <button type="button" class="btn btn-primary" onclick="beriPacientaRocno()">Preberi</button>
+            </div>
+            
+            
+          </div>
+          
+          
+        </div>
       </div>
-    </div>
+      
+      
+     
+      
+      
+      <!-- SRCE APLIKACIJE !-->
+      
+      <div class="panel panel-info hidden">
+        
+        <div class="panel-heading text-center">
+          <strong>Hitri pregled vitalnih znakov in napoved življenjske dobe</strong>
+        </div>
+        
+        <div class="panel-body">
+          
+          <div class="col-lg-12">
+            <div style="font-size:18px">
+              Ime: <span id="spanIme"></span><br/>
+              Starost: <span id="spanStarost"></span><br/>
+              Država: <span id="spanDrzava"></span>
+              <br/>
+              <br/>
+              <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseVitalniZnaki" aria-expanded="false" aria-controls="collapseVitalniZnaki">
+                Prikaži najnovejšo meritev vitalnih znakov
+              </a>
+              <br/>
+              <div class="collapse" id="collapseVitalniZnaki">
+                <div class="well" style="margin: 3px;">
+                  Čas zajema: <span id="spanCasZajema"></span><br/>
+                  Telesna višina: <span id="spanVisina"></span><br/>
+                  Telesna teža: <span id="spanTeza"></span><br/>
+                  Telesna temperatura: <span id="spanTemperatura"></span><br/>
+                  Sistolični krvni tlak: <span id="spanSisKT"></span><br/>
+                  Diastolični krvni tlak: <span id="spanDiaKT"></span><br/>
+                  Nasičenost krvi s kisikom: <span id="spanNasicenost"></span><br/>
+                  <br/>
+                  Pričakovana življenjska doba: <span id="spanZivDoba"></span><br/>
+                  <small><small>Glede na vitalne znake in povprečno življenjsko dobo v domači državi.</small></small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+        
+      </div>
+      
+      <div class="panel panel-info hidden">
+        
+        <div class="panel-heading text-center">
+          <strong>Grafičen prikaz pacientove pričakovane življenjske dobe v primerjavi z drugimi državami</strong>
+        </div>
+        
+        <div class="panel-body">
+          
+          <div class="col-lg-12">
+            
+            <button id="btnNarisiGraf" type="button" class="btn btn-primary" onClick="narisiGraf()" href="#divGraf" data-toggle="collapse" aria-expanded="false" aria-controls="divGraf">Nariši graf</button>
+            
+            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapsePrimerjava" aria-expanded="false" aria-controls="collapsePrimerjava">
+              Izberi države za primerjavo
+            </a>
+            <br/>
+            <input style="width:20px;height:20px;"type="checkbox" id="checkVkljuciPacienta" checked>V graf vključi pacienta</input>
+            <br/>
+            <div class="collapse well" id="collapsePrimerjava" style="height:100px;overflow-y:scroll;">
+
+            </div>
+            
+            
+            
+            <div class="col-lg-12 collapse well" id="divGraf" style="height:700px; margin-top:100px">
+              
+            </div>
+            
+            
+            
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      
+      
+      
+
   </div>
   <!-- KONEC: Vsebina aplikacije -->
 
